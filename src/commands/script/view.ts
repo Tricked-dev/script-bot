@@ -19,7 +19,6 @@ export default class view extends MacroSub {
 					name: 'script',
 					description: `The code for the script`,
 					required: true,
-
 					choices: [],
 				},
 			],
@@ -60,11 +59,17 @@ export default class view extends MacroSub {
 			embed.addField('[Code]', '```sh\n' + id.code + '\n```');
 		const comps = new Components();
 		if (!id?.public)
-			comps.addButton(
-				'Make public',
-				'Primary',
-				`public-${id.id}-${message.authorId}-view`
-			);
+			comps
+				.addButton(
+					'Make public',
+					'Primary',
+					`public-${id.id}-${message.authorId}-view`
+				)
+				.addButton(
+					'Report',
+					'Secondary',
+					`report-${id.id}-${message.authorId}-view`
+				);
 
 		return message.util.reply({
 			embeds: [embed],
@@ -89,6 +94,22 @@ export default class view extends MacroSub {
 					private: true,
 					data: {
 						content: 'Succesfully set the script public',
+					},
+				});
+			}
+			if (b[0] == 'report') {
+				const embed = this.client.util
+					.embed()
+					.setTitle('Script report')
+					.addField('User', `${b[1]}`);
+				this.client.logs({ content: '**Script reported**' });
+				return sendInteractionResponse(i.id, i.token, {
+					type: 4,
+					private: true,
+					data: {
+						embeds: [embed],
+						content:
+							'Scripts has been reported if it was found offensive or made with bad intent you will be rewarded with 5 tokens',
 					},
 				});
 			}
