@@ -8,3 +8,5 @@ default-theme = "Ayu"
 
 [output.html]
 git-repository-url = "https://github.com/SkyBlockDev/script-bot"
+site-url = "/script-bot/"
+cname = "tricked.is-a.dev/script-bot"
