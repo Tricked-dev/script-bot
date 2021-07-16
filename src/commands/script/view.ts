@@ -1,4 +1,8 @@
-import { DiscordenoMessage, hasChannelPermissions } from '../../../deps.ts';
+import {
+	DiscordenoMessage,
+	DiscordInteractionResponseTypes,
+	sendInteractionResponse,
+} from '../../../deps.ts';
 import { MacroSub, generate, Components } from '../../lib/mod.ts';
 import { ms } from '../../lib/mod.ts';
 
@@ -15,8 +19,7 @@ export default class view extends MacroSub {
 					name: 'script',
 					description: `The code for the script`,
 					required: true,
-					prompt:
-						'Please provide a script\n\nThis action will expire in 10 seconds',
+
 					choices: [],
 				},
 			],
@@ -40,14 +43,44 @@ export default class view extends MacroSub {
 					`[Owner] :: ${id.owner}\n` +
 					`[Public] :: ${id.public}\n` +
 					`[Votes] :: ${id.votes || 0}\n` +
+					`[Description] :: ${id.description || 0}\n` +
 					`[Price] :: ${id.price ? `${id.price} Tokens` : 'Free'}` +
 					'\n```'
 			);
 		if ((id.public && !id.price) || id.owner == message.authorId)
 			embed.addField('[Code]', '```sh\n' + id.code + '\n```');
+		const comps = new Components().addButton(
+			'Make public',
+			'Primary',
+			`public-${id.id}-${message.authorId}-view`
+		);
+
 		return message.util.reply({
 			embeds: [embed],
+			components: comps,
 			allowedMentions: { parse: [] },
+		});
+	}
+	init() {
+		this.client.interactionResponders.set('view', async (i, m, b) => {
+			if (BigInt(b[2]) !== m.id) {
+				return sendInteractionResponse(i.id, i.token, {
+					type: DiscordInteractionResponseTypes.DeferredUpdateMessage,
+				});
+			}
+			if (b[0] == 'public') {
+				await this.client.query(
+					'UPDATE scripts SET public = true WHERE id = $1',
+					[b[1]]
+				);
+				return sendInteractionResponse(i.id, i.token, {
+					type: 4,
+					private: true,
+					data: {
+						content: 'Succesfully set the script public',
+					},
+				});
+			}
 		});
 	}
 }

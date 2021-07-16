@@ -13,8 +13,6 @@ export default class create extends MacroSub {
 					name: 'script',
 					description: `The code for the script`,
 					required: true,
-					prompt:
-						'Please provide a script\n\nThis action will expire in 10 seconds',
 					choices: [],
 				},
 			],

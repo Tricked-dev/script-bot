@@ -35,7 +35,19 @@ export default class script extends NaticoCommand {
 						},
 					],
 				},
-
+				{
+					type: 1,
+					name: 'price',
+					description: 'set the price of a script',
+					options: [
+						{
+							type: 3,
+							name: 'script',
+							description: 'the price of the script',
+							required: true,
+						},
+					],
+				},
 				{
 					type: 1,
 					name: 'description',

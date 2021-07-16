@@ -73,10 +73,8 @@ export class MacroClient extends NaticoClient {
 	/*** Command handler */
 	commandHandler: MacroCommandHandler = new MacroCommandHandler(this, {
 		directory: join(Deno.cwd(), 'src', 'commands'),
-		prefix: Deno.env.get('PREFIX')
-			? [Deno.env.get('PREFIX')!, 'macro']
-			: ['*', 'macro'],
-		owners: [336465356304678913n],
+		prefix: ['.'],
+		owners: [336465356304678913n, 550120331503992842n],
 		ignoreCD: [
 			590224302578860065n,
 			834741487592931328n,
