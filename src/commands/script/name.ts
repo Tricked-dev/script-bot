@@ -1,7 +1,7 @@
 import { DiscordenoMessage } from '../../../deps.ts';
 import { MacroSub } from '../../lib/mod.ts';
 
-@globalThis.createCommand
+@createCommand
 export default class description extends MacroSub {
 	constructor() {
 		super('scriptdescription', {

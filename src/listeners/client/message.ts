@@ -1,12 +1,6 @@
-import {
-	DiscordenoMessage,
-	addRole,
-	addReaction,
-	sendWebhook,
-	uwufier,
-} from '../../../deps.ts';
+import { DiscordenoMessage, addReaction } from '../../../deps.ts';
 import { MacroListener } from '../../lib/mod.ts';
-const uwu = new uwufier();
+
 @globalThis.createEvent
 export default class messageCreate extends MacroListener {
 	constructor() {

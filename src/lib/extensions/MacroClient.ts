@@ -14,7 +14,6 @@ import {
 	NaticoInhibitorHandler,
 	DiscordenoMember,
 	ComponentInteraction,
-	suggestiononly,
 	Argument,
 } from '../../../deps.ts';
 import { MacroLogger } from '../classes/logger.ts';
@@ -33,10 +32,8 @@ type Responder = (
  * dont leak
  */
 export class MacroClient extends NaticoClient {
-	suggestiononly?: boolean;
 	constructor(options?: NaticoClientOptions) {
 		super(options);
-		if (suggestiononly) this.suggestiononly = true;
 	}
 	/*** Make this file if it errors */
 	fileloaderPath = Deno.realPathSync('fileloader.ts');
@@ -48,12 +45,6 @@ export class MacroClient extends NaticoClient {
 	dbPool = new Pool(dbcon, 20, true);
 	/*** All tokens very useful 10/10 */
 	tokens = tokens;
-	/*** Borred from the template */
-	buttonCollectors = new Collection<any, any>();
-	/*** Borred from the template */
-	messageCollectors = new Collection<any, any>();
-	/*** Borred from the template */
-	reactionCollectors = new Collection<any, any>();
 	/*** Responders to interactions, putting it all in one version aint the way chief */
 	interactionResponders = new Collection<string, Responder>();
 	/*** Just a number from when the bot client is made not actually started but who cares! */
@@ -184,7 +175,6 @@ export class MacroClient extends NaticoClient {
 		this.logger.debug(`[LOADED FILES]`);
 		this.commandHandler.setInhibitorHandler(this.inhibitorHandler);
 		this.commandHandler.generator.arguments.set('6', parseUser as Argument);
-		await this.util.init();
 		this.logger.debug(`[LOADED CACHE]`);
 		await this.fileLoader();
 		this.postLoaders();

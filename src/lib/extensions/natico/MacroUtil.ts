@@ -4,8 +4,6 @@ import {
 	NaticoClientUtil,
 	NaticoEmbed as Embed,
 	ApplicationCommandOption,
-	filemap,
-	ENGLISH,
 	getMessage,
 } from '../../../../deps.ts';
 import { MacroCommand } from './MacroCommand.ts';
@@ -39,10 +37,7 @@ enum languages {
 	en = 1,
 	owo = 2,
 }
-const ln = {
-	[languages.en]: ENGLISH,
-	[languages.owo]: ENGLISH,
-};
+
 export interface fn {
 	(...args: string[]): string;
 }
@@ -157,7 +152,7 @@ export class MacroUtil extends NaticoClientUtil {
 	}
 
 	hst = (body: string): Promise<string> | string => this.post(body);
-	embed = () => new Embed().setColor('#0d9932');
+	embed = (): Embed => new Embed().setColor('#0d9932');
 	getMsg = async (id: bigint, channelId: bigint) =>
 		this.client.cache.messages.get(id) ||
 		(await getMessage(channelId, id).catch(() => undefined));
