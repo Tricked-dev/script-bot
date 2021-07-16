@@ -29,7 +29,7 @@ export default class inventory extends NaticoCommand {
 		const embed = this.client.util.embed();
 		for (const s of scripts) {
 			const price = s.public
-				? `[Price] ${s.price ? `${s.price} Tokens` : `Free`}`
+				? `[Price] :: ${s.price ? `${s.price} Tokens` : `Free`}`
 				: ``;
 			embed.addField(
 				`​`,
@@ -39,7 +39,7 @@ export default class inventory extends NaticoCommand {
 					`[Public] :: ${s.public ? 'Yes' : 'No'}\n` +
 					`${price}` +
 					'\n```',
-				false
+				true
 			);
 		}
 		return message.util.send({ embeds: [embed] });

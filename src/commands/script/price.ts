@@ -1,6 +1,5 @@
-import { DiscordenoMessage, hasChannelPermissions } from '../../../deps.ts';
-import { MacroSub, generate, Components } from '../../lib/mod.ts';
-import { ms } from '../../lib/mod.ts';
+import { DiscordenoMessage } from '../../../deps.ts';
+import { MacroSub } from '../../lib/mod.ts';
 
 @globalThis.createCommand
 export default class price extends MacroSub {

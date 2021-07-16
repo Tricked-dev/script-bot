@@ -3,7 +3,7 @@ import {
 	DiscordInteractionResponseTypes,
 	sendInteractionResponse,
 } from '../../../deps.ts';
-import { MacroSub, generate, Components } from '../../lib/mod.ts';
+import { MacroSub, Components } from '../../lib/mod.ts';
 import { ms } from '../../lib/mod.ts';
 
 @globalThis.createCommand
@@ -45,15 +45,18 @@ export default class view extends MacroSub {
 					`[Votes] :: ${id.votes || 0}\n` +
 					`[Description] :: ${id.description || 0}\n` +
 					`[Price] :: ${id.price ? `${id.price} Tokens` : 'Free'}` +
+					`[Lines] :: ${(id.code as string).split('\n').length}` +
 					'\n```'
 			);
 		if ((id.public && !id.price) || id.owner == message.authorId)
 			embed.addField('[Code]', '```sh\n' + id.code + '\n```');
-		const comps = new Components().addButton(
-			'Make public',
-			'Primary',
-			`public-${id.id}-${message.authorId}-view`
-		);
+		const comps = new Components();
+		if (!id?.public)
+			comps.addButton(
+				'Make public',
+				'Primary',
+				`public-${id.id}-${message.authorId}-view`
+			);
 
 		return message.util.reply({
 			embeds: [embed],
