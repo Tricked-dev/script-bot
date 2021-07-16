@@ -10,7 +10,6 @@ export default class run extends NaticoCommand {
 		super('run', {
 			name: 'run',
 			aliases: ['run'],
-			userPermissions: ['ADMINISTRATOR'],
 			ownerOnly: true,
 			options: [
 				{
