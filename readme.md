@@ -29,4 +29,13 @@ export const tokens = {
 
 create a postgressql table with the following [items](https://gist.github.com/SkyBlockDev/ac029429f86e3a8c7562e99b690aea2a)
 
+run
+
+```bash
+
+deno run -A --no-check --unstable src/mod.ts
+```
+
+enjoy
+
 for current goals view the projects page https://github.com/SkyBlockDev/script-bot/projects/1
