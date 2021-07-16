@@ -268,14 +268,16 @@ export class MacroUtil extends NaticoClientUtil {
 		//WHERE id = $1 AND owner = $2 OR
 
 		const res = await this.client.query(
-			`SELECT * FROM scripts WHERE name = $1 AND owner = $2`,
+			`SELECT * FROM scripts WHERE name = $1 AND owner = $2 LIMIT 1`,
 			[name, user]
 		);
 		// .catch(() => []);
 		if (res.length !== 0) return res;
+		const num = parseInt(name);
+		if (!num) return [];
 		return await this.client.query(
-			`SELECT * FROM scripts WHERE id = $1 AND owner = $2`,
-			[name, user]
+			`SELECT * FROM scripts WHERE id = $1 AND owner = $2 LIMIT 1`,
+			[num, user]
 		);
 		// .catch(() => []);
 	};

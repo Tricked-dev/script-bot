@@ -28,7 +28,15 @@ export default class view extends MacroSub {
 	async exec(message: DiscordenoMessage, { script }: { script: string }) {
 		if (!script) return message.util.fail('No script provided');
 		const name = script.split(' ')[0];
-		const [id] = await this.client.util.getScript(name, message.authorId);
+		const [id] =
+			(await this.client.query(
+				`SELECT * FROM scripts where name = $1 LIMIT 1`,
+				[name]
+			)) ??
+			(await this.client.query(`SELECT * FROM scripts where id = $1 LIMIT 1`, [
+				parseInt(name) || 0,
+			]));
+
 		if (!id) return message.util.fail('Script not found');
 		const created = ms(Date.now() - Number(id.created), {
 			long: true,
@@ -44,7 +52,7 @@ export default class view extends MacroSub {
 					`[Public] :: ${id.public}\n` +
 					`[Votes] :: ${id.votes || 0}\n` +
 					`[Description] :: ${id.description || 0}\n` +
-					`[Price] :: ${id.price ? `${id.price} Tokens` : 'Free'}` +
+					`[Price] :: ${id.price ? `${id.price} Tokens` : 'Free'}\n` +
 					`[Lines] :: ${(id.code as string).split('\n').length}` +
 					'\n```'
 			);
