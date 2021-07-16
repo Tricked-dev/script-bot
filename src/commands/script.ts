@@ -5,7 +5,7 @@ export default class script extends NaticoCommand {
 		super('script', {
 			name: 'script',
 			aliases: ['script'],
-			ownerOnly: true,
+			
 			options: [
 				{
 					type: 1,
