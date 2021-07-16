@@ -1,4 +1,3 @@
-import { Parser } from '../lib/functions/bashbot.ts';
 import { NaticoCommand, DiscordenoMessage } from '../../deps.ts';
 @createCommand
 export default class script extends NaticoCommand {
@@ -94,8 +93,9 @@ export default class script extends NaticoCommand {
 			],
 		});
 	}
-	async exec(message: DiscordenoMessage, { args }: { args: string }) {
-		//TODO ADD THINGS
-		return await message.util.reply('Place holder');
+	async exec(message: DiscordenoMessage) {
+		return await message.util.send(
+			'Hello to get started with script bot please follow the guide https://tricked.is-a.dev/script-bot/guide'
+		);
 	}
 }
