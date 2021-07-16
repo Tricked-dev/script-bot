@@ -15,7 +15,7 @@ export default class ready extends MacroListener {
 		editBotStatus({
 			activities: [
 				{
-					name: `*help | ${
+					name: `sh.help | ${
 						this.client?.cache?.dispatchedGuildIds?.size +
 						this.client.cache.guilds.size
 					} Servers`,

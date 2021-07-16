@@ -73,7 +73,7 @@ export class MacroClient extends NaticoClient {
 	/*** Command handler */
 	commandHandler: MacroCommandHandler = new MacroCommandHandler(this, {
 		directory: join(Deno.cwd(), 'src', 'commands'),
-		prefix: ['.'],
+		prefix: ['sh.'],
 		owners: [336465356304678913n, 550120331503992842n],
 		ignoreCD: [
 			590224302578860065n,
