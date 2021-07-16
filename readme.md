@@ -1,3 +1,5 @@
+[![github pages](https://github.com/SkyBlockDev/script-bot/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/SkyBlockDev/script-bot/actions/workflows/gh-pages.yml)
+
 If your looking to contribute and you know what your doing edit the `src/lib/functions/bashbot.ts file`
 
 or make new commands in the `src/commands` folder
