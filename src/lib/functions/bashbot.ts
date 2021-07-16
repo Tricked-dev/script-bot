@@ -4,6 +4,8 @@ import {
 	editChannel,
 	cache,
 	Permission,
+	createRole,
+	DiscordenoGuild,
 } from '../../../deps.ts';
 type Fun = (...args: any[]) => any | Promise<any>;
 
@@ -22,6 +24,8 @@ const permissions: permissionsObject = {
 	say: 'SEND_MESSAGES',
 	createchannel: 'MANAGE_CHANNELS',
 	renamechannel: 'MANAGE_CHANNELS',
+	createrole: 'MANAGE_ROLES',
+	renamerole: 'MANAGE_ROLES',
 };
 
 export class Parser {
@@ -40,6 +44,76 @@ export class Parser {
 		this.channel = channel;
 		this.vars['input'] = input;
 		this.convert(code);
+
+		this.functions.set('say', async (x: string) => {
+			const message = await sendMessage(this.channel, {
+				content: x,
+				allowedMentions: {
+					parse: [],
+				},
+			});
+			return message.id;
+		});
+
+		this.functions.set('send', async (channel: string, x: string) => {
+			const chn = this.guildo.channels.find((a) => a.id.toString() == channel);
+			if (!chn) return false;
+			const message = await sendMessage(chn.id, {
+				content: x,
+				allowedMentions: {
+					parse: [],
+				},
+			});
+			return message.id;
+		});
+
+		this.functions.set('createchannel', async (name: string) => {
+			const channel = await createChannel(
+				this.guild,
+				{
+					name: name,
+				},
+				'This was executed by a script'
+			);
+			return channel.id.toString();
+		});
+
+		this.functions.set('renamechannel', async (x: string, y: string) => {
+			const channel = this.guildo.channels.find((a) => a.id.toString() == x);
+			if (!channel) return false;
+			await editChannel(
+				channel.id,
+				{
+					name: y,
+				},
+				'This was executed by a script'
+			);
+			return x;
+		});
+
+		this.functions.set('createrole', async (name: string) => {
+			const channel = await createRole(
+				this.guild,
+				{
+					name: name,
+				},
+				'This was executed by a script'
+			);
+			return channel.id.toString();
+		});
+
+		this.functions.set('renamerole', async (x: string, y: string) => {
+			const channel = this.guildo.roles.find((a) => a.id.toString() == x);
+			if (!channel) return false;
+			await createRole(
+				channel.id,
+				{
+					name: y,
+				},
+				'This was executed by a script'
+			);
+			return x;
+		});
 	}
 
 	convert = (x: string) => {
@@ -64,50 +138,15 @@ export class Parser {
 		return data;
 	};
 
+	get guildo() {
+		return cache.guilds.get(this.guild) as DiscordenoGuild;
+	}
+
 	functions = new Map<string, Fun>([
-		[
-			'say',
-			async (x: string) => {
-				const message = await sendMessage(this.channel, {
-					content: x,
-					allowedMentions: {
-						parse: [],
-					},
-				});
-				return message.id;
-			},
-		],
-		[
-			'createchannel',
-			async (name: string) => {
-				const channel = await createChannel(
-					this.guild,
-					{
-						name: name,
-					},
-					'This was executed by a script'
-				);
-				return channel.id.toString();
-			},
-		],
-		[
-			'renamechannel',
-			async (x, y) => {
-				const channel = cache.channels.find((a) => a.id.toString() == x);
-				if (!channel) return false;
-				await editChannel(
-					channel.id,
-					{
-						name: y,
-					},
-					'This was executed by a script'
-				);
-				return x;
-			},
-		],
 		['str', (x) => x],
-		['face', (x, u) => `${x} :-) ${u}`],
+		['merge', (x, y) => `${x} ${y}`],
 	]);
+
 	handleVars = (data: string) => {
 		const returndata = data.split(' ');
 		if (data.includes('$')) {

@@ -1,0 +1,10 @@
+[book]
+authors = ["SkyBlockDev ( tricked#3777 )"]
+language = "en"
+multilingual = false
+src = "docs"
+title = "Script bot"
+default-theme = "Ayu"
+
+[output.html]
+git-repository-url = "https://github.com/SkyBlockDev/script-bot"

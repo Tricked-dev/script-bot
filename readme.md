@@ -1,3 +1,7 @@
+If your looking to contribute and you know what your doing edit the `src/lib/functions/bashbot.ts file`
+
+or make new commands in the `src/commands` folder
+
 How to setup install `deno`
 
 Put tokens a the settings.ts file
